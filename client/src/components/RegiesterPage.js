@@ -14,6 +14,7 @@ import {
 import crypto, { AES, createCipheriv, createHash, randomBytes } from "crypto";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import encrypt from "../util/encrypt";
 
 const { Option } = Select;
 const residences = [
@@ -92,6 +93,7 @@ const RegistrationForm = () => {
       .digest("hex");
 
     delete login_request_object["confirm_password"]; // remove the confirm password field
+    login_request_object['password'] = encrypt(login_request_object['password']);
     axios
       .post("http://localhost:5000/RegisterUser", login_request_object)
       .then((response) => {

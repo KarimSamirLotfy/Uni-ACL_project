@@ -21,6 +21,7 @@ import crypto, { AES, createCipheriv, createHash, randomBytes } from "crypto";
 import { Context } from "./Contexts";
 import send_request from "../util/send_request";
 import { useForm } from "rc-field-form";
+import encrypt from "../util/encrypt";
 
 export default function Login2() {
     const navigate = useNavigate()
@@ -28,7 +29,10 @@ export default function Login2() {
     const [message, setMessage] = useState("")
     
      const onFinish = async (values) => {
+       let encrypted_pass = encrypt(values['password'])
+       values['password'] = encrypted_pass;
        console.log("Success:", values);
+       
        const {msg,error,token} = await send_request('LoginUser', values)
        if(error){
         setMessage(msg);
