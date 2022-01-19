@@ -19,7 +19,7 @@ function AdminPage() {
 
       <Button
         onClick={() => {
-          navigate("../admin/ Flight");
+          navigate("../admin/Flight");
         }}
       >
         Edit Flights

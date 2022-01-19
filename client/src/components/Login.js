@@ -136,6 +136,22 @@ export default function Login2() {
           span: 16,
         }}
       >
+        <Button
+          type="primary"
+          htmlType="submit"
+          onClick={() => {
+            navigate("../admin/");
+          }}
+        >
+          Login as admin
+        </Button>
+      </Form.Item>
+      <Form.Item
+        wrapperCol={{
+          offset: 8,
+          span: 16,
+        }}
+      >
         {message && <Alert message={message}></Alert>}
       </Form.Item>
     </Form>

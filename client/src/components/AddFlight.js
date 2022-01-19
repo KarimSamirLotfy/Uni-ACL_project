@@ -188,10 +188,7 @@ class SearchPage extends Component {
             </Button>
           </Form.Item>
         </Form>
-        <Divider>Results</Divider>
-        {this.state.flights.map((flight) => (
-          <h1 key={flight["_id"]}>{JSON.stringify(flight)}</h1>
-        ))}
+        
       </div>
     );
   }
