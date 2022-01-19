@@ -220,7 +220,6 @@ function ChangePassword({ password, onChange }) {
             }),
           ]}
         >
-          <Text>Add your old Password</Text>
           <Input.Password />
         </Form.Item>
       )}
@@ -239,7 +238,6 @@ function ChangePassword({ password, onChange }) {
             ]}
           >
             
-            <Text>Choose a New Passwrod</Text>
             <Input.Password />
           </Form.Item>
           <Form.Item

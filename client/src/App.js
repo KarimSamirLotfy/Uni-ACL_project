@@ -1,5 +1,9 @@
-
-import { BrowserRouter as Router, Route, Routes, useNavigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useNavigate,
+} from "react-router-dom";
 import { useContext, createContext } from "react";
 import "./App.css";
 import Guest from "./components/Guest.js";
@@ -23,32 +27,31 @@ import PayPage from "./components/Pay";
 import FlightCard from "./components/FlightCrad";
 import MyTickets from "./components/MyTickets";
 
-import RegisterPage from './components/RegiesterPage'
-import PaySuccess from './components/PaySuccess'
-import LoginAdmin from './components/LoginAdmin'
-import AdminPage from './components/AdminPage'
+import RegisterPage from "./components/RegiesterPage";
+import PaySuccess from "./components/PaySuccess";
+import LoginAdmin from "./components/LoginAdmin";
+import AdminPage from "./components/AdminPage";
 
 import UpdateFlights from "./components/UpdateFlights";
 
 import Contexts, { Context } from "./components/Contexts";
 import StripePayPage from "./components/StripPayPage";
-import EditFlight from './components/EditFlight'
+import EditFlight from "./components/EditFlight";
 import AddFlight from "./components/AddFlight";
-// These are global Variables 
-
+// These are global Variables
 
 const { Header, Content, Footer } = Layout;
 function App() {
   const { userLoggedIn, setUserLoggedIn } = useContext(Context);
- 
+
   const navigate = useNavigate();
-  const user_exists=()=>{
-    let token = localStorage.getItem('token')
-    if(token==undefined || token == 'undefined'){
-      return false
+  const user_exists = () => {
+    let token = localStorage.getItem("token");
+    if (token == undefined || token == "undefined") {
+      return false;
     }
-    return true
-  }
+    return true;
+  };
   return (
     <div>
       <Layout className="layout">
@@ -57,40 +60,11 @@ function App() {
           <Nav />
         </Header>
         <Content style={{ padding: "50px 50px" }}>
-          {false &&
-            (function nonLoggedIn() {
-              return (
-                <Routes>
-                  <Route
-                    path="/*"
-                    element={
-                      <LoginPage
-                        user_logged_in={() => {
-                          setUserLoggedIn(true);
-                          console.log("user looged in i guess, ", userLoggedIn);
-                        }}
-                      />
-                    }
-                  />
-                  <Route
-                    path="/LoginUser"
-                    element={
-                      <LoginPage
-                        user_logged_in={() => {
-                          setUserLoggedIn(true);
-                        }}
-                      />
-                    }
-                  />
+          {!user_exists() && <AppNotLoggedIn />}
 
-                  <Route path="/RegisterUser" element={<RegisterPage />} />
-                </Routes>
-              );
-            })()}
-
-          {true && (
+          {user_exists() && (
             <Routes>
-              <Route path="/" element={<EditUSer />} exact />
+              <Route path="/" element={<SearchPage />} exact />
               <Route path="/FavFlights" element={<FavFlights />} exact />
               <Route path="/ChooseSeats" element={<ChooseSeats />} exact />
               <Route path="/EditUser" element={<EditUSer />} exact />
@@ -141,39 +115,71 @@ function App() {
               />
             </Routes>
           )}
-
-          <Routes>
-            <Route path="/" element={<EditUSer />} exact />
-            <Route path="/FavFlights" element={<FavFlights />} exact />
-            <Route path="/ChooseSeats" element={<ChooseSeats />} exact />
-            <Route path="/EditUser" element={<EditUSer />} exact />
-            <Route path="/PaySuccess" element={<PaySuccess />} exact />
-
-            <Route path="/Pay" element={<PayPage />} exact />
-            <Route path="/MyTickets" element={<MyTickets />} exact />
-            <Route path="/ReturnTrip" element={<ReturnTrip />} exact />
-            <Route path="/SearchPage" element={<SearchPage />} exact />
-            <Route
-              path="/LoginUser"
-              element={
-                <LoginPage
-                  user_logged_in={() => {
-                    setUserLoggedIn(true);
-                  }}
-                />
-              }
-            />
-
-            <Route path="/admin/" element={<LoginAdmin />} />
-            <Route path="/admin/Main" element={<AdminPage />} />
-            <Route path="/admin/AllFlights" element={<AllAirplanes />} />
-            <Route path="/admin/AddFlight" element={<AddFlight />} />
-
-            <Route path="/admin/EditFlight" element={<EditFlight />} />
-          </Routes>
         </Content>
       </Layout>
     </div>
+  );
+
+
+}
+  function Res() {
+    const navigate = useNavigate();
+    return (
+      <div>
+        <Result
+          status="warning"
+          title="You must Login First"
+          extra={
+            <div>
+              <Button
+                onClick={() => {
+                  navigate("../LoginUser");
+                }}
+                style={{ margin: "10px" }}
+                type="primary"
+                key="console"
+              >
+                Login
+              </Button>
+              <Button
+                onClick={() => {
+                  navigate("../RegisterUser");
+                }}
+                type="primary"
+                key="console"
+              >
+                Register
+              </Button>
+            </div>
+          }
+        />
+      </div>
+    );
+  }
+function AppNotLoggedIn() {
+  const { userLoggedIn, setUserLoggedIn } = useContext(Context);
+
+  const navigate = useNavigate();
+  return (
+    <Routes>
+      <Route path="/" exact element={<Res />} />
+      <Route
+        path="/LoginUser"
+        element={
+          <LoginPage
+            user_logged_in={() => {
+              setUserLoggedIn(true);
+            }}
+          />
+        }
+        exact
+      />
+      <Route path="/SearchPage" element={<SearchPage />} exact />
+      <Route path="/RegisterUser" element={<RegisterPage />} />
+      <Route path="/EditUser" element={<Res />} exact />
+      <Route path="/MyTickets" element={<Res />} exact />
+      <Route path="/FavFlights" element={<Res />} exact />
+    </Routes>
   );
 }
 
