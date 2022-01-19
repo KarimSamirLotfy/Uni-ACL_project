@@ -115,6 +115,28 @@ const Ticket = ({  }) => {
           
           <Popconfirm
             placement="right"
+            title="Are you sure you want to change this flight.This flight will be cancelled and a refund may take a few days."
+            onConfirm={async () => {
+              const { error, msg } = await Send_request("CancelTicket", {
+                ticket_id: ticket["_id"],
+                seat_nr: seat_nr,
+                flight_id: flight["_id"],
+              });
+              console.log(
+                `canceled ${ticket} seat number : ${seat_nr} from flight: ${flight}` +"Will redirect to search"
+              );
+              navigate("../SearchPage");
+              if (!error) {
+                setMsg(msg);
+              }
+            }}
+            okText="Yes"
+            cancelText="No"
+          >
+            <Button type="primary">Change Flight</Button>
+          </Popconfirm>
+          <Popconfirm
+            placement="right"
             title="Are you sure you want to cancel this flight a refund may take a few days"
             onConfirm={async () => {
               const { error, msg } = await Send_request("CancelTicket", {
