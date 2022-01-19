@@ -125,7 +125,7 @@ const PayPage = () => {
         <Col>
           <Popconfirm
             placement="rightBottom"
-            title={"Sure You want to Confirm Paymen"}
+            title={"Sure You want to Confirm Payment"}
             onConfirm={async () => {
               console.log("confirmed the payment");
               // Here we actually Pay we keda
