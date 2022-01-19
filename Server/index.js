@@ -695,8 +695,20 @@ app.post("/CancelTicket", async (req, res) => {
     { $pull: { ticketsID: ticket_id } }
   );
   console.log("removed from the user ticketsID");
+     const options = {
+    from: "AlmazaAirport@outlook.com", //mail el sender
+    to: user["email"], //el mafrood mail
+    subject: "Flight Reserved",
+    text: `Flight Successfully canceled, ${seat_type}:${seat_nr}, from flight: ${flight_id}`
+  };
+  transporter.sendMail(options, ()=>console.log('sent mail successfully')); // TODO: Maher this is not working or working mesh mota2aked
+ 
   res.status(200).send({ success: true });
 });
+
+
+
+
 app.post("/LoginUser", function (req, res) {
   console.log(
     "in the post method server resived post request with body:\n" +
@@ -739,6 +751,10 @@ app.post("/LoginUser", function (req, res) {
       }
     })
     .catch((err) => console.error(err));
+
+ 
+
+
 });
 app.post("/LoginAdmin", async (req, res) => {
   res.redirect("/");
@@ -902,6 +918,25 @@ app.post("/deleteFlight", async (req, res) => {
 
   console.log('Flight deleted', flight_id)
   res.status(200).send({ error:false, msg: "Flight Deleted" });
+});
+app.post("/EmailDetails", async (req, res) => {
+  const { ticket } = req.body;
+  const { token } = req.body;
+  const user = get_user_from_token(token);
+  const userID = user["id"];
+  console.log('ticket ', ticket);
+  const flight = await flightData.findOne({ _id: ticket.IDFlight });
+  let msg = `Ticket ID: ${ticket['_id']}, On Flight ${flight['id']}\n`
+  msg += `seat_number: ${ticket.seat_number} from: ${ticket.from} on: ${ticket.departure_time}`;
+  const options = {
+    from: "AlmazaAirport@outlook.com", //mail el sender
+    to: user["email"], //el mafrood mail
+    subject: "Flight Reserved",
+    text: msg,
+  };
+  transporter.sendMail(options, ()=>console.log('sent mail successfully')); // TODO: Maher this is not working or working mesh mota2aked
+  
+  res.status(200).send({ error: false, msg: "Email Successfully" });
 });
 
 export default app;

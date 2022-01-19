@@ -55,7 +55,7 @@ const PayPage = () => {
   return <div>
     {tickets.map((ticket, index)=>
       <Card key={index}>
-        <h1>Ticket ID</h1>
+        <h1>Booking ID</h1>
         <h2>{ticket['_id']}</h2>
         <Button
         onClick={()=>{

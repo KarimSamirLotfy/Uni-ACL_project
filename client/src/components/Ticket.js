@@ -158,6 +158,11 @@ const Ticket = ({  }) => {
             <Button type="danger">Cancel</Button>
           </Popconfirm>
 
+          <Button onClick={()=>{
+            Send_request('EmailDetails', {ticket:ticket});
+            console.log('send detatils')
+          }}>Email Flight Details</Button>
+
           {/* <img src="http://eslkidsgames.com/Flash/QR%20Code%20Maker/eslkidsgames.com.png"  alt="" title="Ticket" /> */}
           <Row>
             <Col span={8}>
