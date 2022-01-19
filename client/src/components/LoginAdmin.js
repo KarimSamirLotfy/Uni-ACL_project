@@ -34,7 +34,7 @@ const Admin1 = () => {
       } else {
         localStorage.setItem("token", token);
       }
-      navigate("../AdminPage", {
+      navigate("./AdminPage", {
         replace: true,
       });
     } else {

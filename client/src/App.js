@@ -38,6 +38,7 @@ import Contexts, { Context } from "./components/Contexts";
 import StripePayPage from "./components/StripPayPage";
 import EditFlight from "./components/EditFlight";
 import AddFlight from "./components/AddFlight";
+import AdminFlights from "./components/AdminAllFlights";
 // These are global Variables
 
 const { Header, Content, Footer } = Layout;
@@ -61,7 +62,6 @@ function App() {
         </Header>
         <Content style={{ padding: "50px 50px" }}>
           {!user_exists() && <AppNotLoggedIn />}
-
           {user_exists() && (
             <Routes>
               <Route path="/" element={<SearchPage />} exact />
@@ -115,6 +115,7 @@ function App() {
               />
             </Routes>
           )}
+          <AdminPages/>
         </Content>
       </Layout>
     </div>
@@ -122,40 +123,53 @@ function App() {
 
 
 }
-  function Res() {
-    const navigate = useNavigate();
-    return (
-      <div>
-        <Result
-          status="warning"
-          title="You must Login First"
-          extra={
-            <div>
-              <Button
-                onClick={() => {
-                  navigate("../LoginUser");
-                }}
-                style={{ margin: "10px" }}
-                type="primary"
-                key="console"
-              >
-                Login
-              </Button>
-              <Button
-                onClick={() => {
-                  navigate("../RegisterUser");
-                }}
-                type="primary"
-                key="console"
-              >
-                Register
-              </Button>
-            </div>
-          }
-        />
-      </div>
-    );
-  }
+function AdminPages(){
+  return (
+    <Routes>
+      <Route path="/admin/" element={<LoginAdmin />} exact />
+      <Route path="/admin/AdminPage" element={<AdminPage />} exact />
+      <Route path="/admin/Flight" element={<AdminFlights />} exact />
+      <Route path="/admin/EditFlight" element={<EditFlight />} />
+      <Route path="/admin/CreateFlight" element={<AddFlight />} />
+
+      {/* <Route path="/admin/userAllFlights" element={<UserAllFlights />} /> */}
+    </Routes>
+  );
+}
+function Res() {
+  const navigate = useNavigate();
+  return (
+    <div>
+      <Result
+        status="warning"
+        title="You must Login First"
+        extra={
+          <div>
+            <Button
+              onClick={() => {
+                navigate("../LoginUser");
+              }}
+              style={{ margin: "10px" }}
+              type="primary"
+              key="console"
+            >
+              Login
+            </Button>
+            <Button
+              onClick={() => {
+                navigate("../RegisterUser");
+              }}
+              type="primary"
+              key="console"
+            >
+              Register
+            </Button>
+          </div>
+        }
+      />
+    </div>
+  );
+}
 function AppNotLoggedIn() {
   const { userLoggedIn, setUserLoggedIn } = useContext(Context);
 
